@@ -53,7 +53,7 @@ jobs:
               dotnet test $testProject.FullName --configuration ${{ matrix.configuration }}
             } else {
               nuget restore $testProject.FullName -SolutionDirectory $(Split-Path $testProject.FullName -Parent)
-              msbuild $testProject.FullName /p:Configuration=${{ matrix.configuration }}
+              msbuild $testProject.FullName /p:Configuration=${{ matrix.configuration }} /p:SolutionDir=$(Split-Path $testProject.FullName -Parent)
               # Assuming the tests are using MSTest, adjust if using NUnit or xUnit
               $testDlls = Get-ChildItem -Path (Split-Path $testProject.FullName -Parent) -Recurse -Filter *.Tests.dll
               foreach ($testDll in $testDlls) {
