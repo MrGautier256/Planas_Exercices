@@ -70,15 +70,22 @@ jobs:
       - name: Setup MSBuild.exe
         uses: microsoft/setup-msbuild@v2
 
-      # Restore and execute all unit tests in the solution folders
-      - name: Restore and Execute unit tests
+      # Restore, build, and execute all unit tests in the solution folders
+      - name: Restore, Build, and Execute unit tests
         run: |
-          $solutionFiles = Get-ChildItem -Path . -Recurse -Include *.sln
-          foreach ($solutionFile in $solutionFiles) {
-            Write-Host "Restoring and running tests for solution: $solutionFile"
-            dotnet restore $solutionFile.FullName
-            dotnet test $solutionFile.FullName --configuration ${{ matrix.configuration }}
+          $testProjects = Get-ChildItem -Path . -Recurse -Include *.csproj | Where-Object { $_.FullName -like "*Solution*UnitTests*.csproj" }
+          foreach ($testProject in $testProjects) {
+            Write-Host "Restoring, building, and running tests for project: $testProject"
+            dotnet restore $testProject.FullName
+            dotnet build $testProject.FullName --configuration ${{ matrix.configuration }}
+            dotnet test $testProject.FullName --configuration ${{ matrix.configuration }}
           }
+
+      # Restore the application to populate the obj folder with RuntimeIdentifiers
+      - name: Restore the application
+        run: msbuild ${{ env.Solution_Name }} /t:Restore /p:Configuration=${{ matrix.configuration }}
+        env:
+          Configuration: ${{ matrix.configuration }}
 
       # # Decode the base 64 encoded pfx and save the Signing_Certificate
       # - name: Decode the pfx
