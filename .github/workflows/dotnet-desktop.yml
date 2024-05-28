@@ -54,12 +54,6 @@ jobs:
       windows-latest # For a list of available runner types, refer to
       # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 
-    env:
-      Solution_Name: "DependencyInjection/Starter/DependencyInjection.sln" # Replace with your solution name, i.e. MyWpfApp.sln.
-      Test_Project_Path: "DependencyInjection/Starter/DependencyInjection.sln" # Replace with the path to your test project, i.e. MyWpfApp.Tests/MyWpfApp.Tests.csproj.
-      # Wap_Project_Directory: "your-wap-project-directory-name" # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
-      # Wap_Project_Path: "your-wap-project-path" # Replace with the path to your Wap project, i.e. MyWpf.App.Package/MyWpfApp.Package.wapproj.
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -76,9 +70,13 @@ jobs:
       - name: Setup MSBuild.exe
         uses: microsoft/setup-msbuild@v2
 
-      # Execute all unit tests in the solution
+      # Execute all unit tests in the solution folders
       - name: Execute unit tests
-        run: dotnet test ${{ env.Test_Project_Path }}
+        run: |
+          $testProjects = Get-ChildItem -Path . -Recurse -Include *.csproj | Where-Object { $_.FullName -like "*Solution*UnitTests*.csproj" }
+          foreach ($testProject in $testProjects) {
+            Write-Host "Running tests for project: $testProject"
+            dotnet test $testProject.FullName --configuration ${{ matrix.configuration }}
 
       # Restore the application to populate the obj folder with RuntimeIdentifiers
       - name: Restore the application
