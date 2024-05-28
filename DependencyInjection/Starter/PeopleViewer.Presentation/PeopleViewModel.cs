@@ -8,7 +8,7 @@ namespace PeopleViewer.Presentation
     public class PeopleViewModel : INotifyPropertyChanged
     {
         // TODO 1-3 : Changer le type ServiceReader en IRepository pour abstraire le type de stockage de données utilisé.
-        protected ServiceReader Reader;
+        protected IRepository Reader;
 
         private IEnumerable<Person> _people;
         public IEnumerable<Person> People
@@ -25,9 +25,10 @@ namespace PeopleViewer.Presentation
 
         // TODO 1-4 : Rajouter un paramètre au constructeur de type IRepository. Désormais, ce n'est plus de la responsabilité du ViewModel que de créer le repository...
         // TODO 1-5 : Supprimer la création du ServiceReader, et à la place stocker le nouveau paramètre. Cette étape va "casser" la compilation.
-        public PeopleViewModel()
+        public PeopleViewModel(IRepository repository)
         {
-            Reader = new ServiceReader();
+            Reader = repository;
+            //Reader = new ServiceReader();
         }
 
         public void RefreshPeople()

@@ -10,6 +10,7 @@ namespace PeopleViewer.Presentation.Tests
         private IRepository GetFakeRepository()
         {
             // TODO 6-4 : Instancer FakeRepository et le retourner. Cette instance de repository sera utiliser par les tests
+            return new FakeRepository();
         }
 
         // TODO 6-5 : Exécuter les tests unitaires et vérifier qu'ils sont vert (Lire et comprendre le code des tests unitaires ci dessous...)

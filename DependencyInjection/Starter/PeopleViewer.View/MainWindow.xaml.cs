@@ -10,11 +10,11 @@ namespace PeopleViewer
         // TODO 2 : L'idée est de découpler la couche "01-Application View" de la couche "02-Presentation"
         // TODO 2-1 : Rajouter un paramètre au constructeur de type PeopleViewModel. Désormais, ce n'est plus de la responsabilité de la MainWindow que de créer cet objet...
         // TODO 2-2 : Supprimer la création du PeopleViewModel, et à la place stocker le nouveau paramètre. 
-        public MainWindow()
+        public MainWindow(PeopleViewModel peopleViewModel)
         {
             InitializeComponent();
 
-            ViewModel = new PeopleViewModel();
+            ViewModel = peopleViewModel;
             DataContext = ViewModel;
         }
 

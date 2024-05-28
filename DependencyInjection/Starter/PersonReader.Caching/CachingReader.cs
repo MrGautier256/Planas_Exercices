@@ -7,7 +7,7 @@ using PersonReader.Service;
 namespace PersonReader.Caching
 {
     // TODO 5-2 : La classe CachingReader doit implémenter IRepository
-    public class CachingReader 
+    public class CachingReader : IRepository
     {
         private TimeSpan _cacheDuration = new TimeSpan(0, 0, 30);
         private DateTime _dataDateTime;

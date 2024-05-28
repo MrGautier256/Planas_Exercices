@@ -16,11 +16,11 @@ namespace People.Service.Controllers
         // TODO 9-2 : Commenter la ligne de code qui créé le provider
         // TODO 9-3 : Et affecter à _provider, le nouveau paramètre du constructeur
 
-        public PeopleController()
+        public PeopleController(IPeopleProvider peopleProviders)
         {
-            this._provider = new HardCodedPeopleProvider();
+            this._provider = peopleProviders;
         }
-
+        
         // GET /people
         [HttpGet]
         public IEnumerable<Person> Get()
@@ -33,6 +33,13 @@ namespace People.Service.Controllers
         public Person Get(int id)
         {
             return _provider.GetPeople().FirstOrDefault(p => p.Id == id);
+        }
+
+        // GET /people/Isaac
+        [HttpGet("givenName/{givenName}")]
+        public Person GetName(string givenName)
+        {
+            return _provider.GetPeople().FirstOrDefault(p => p.GivenName == givenName);
         }
     }
 }

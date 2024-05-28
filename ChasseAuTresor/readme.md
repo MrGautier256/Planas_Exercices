@@ -18,7 +18,7 @@ Vous devez donc être le plus rapide pour découvrir ce mot.
 ## Installation  
 - Clonner ou télécharger ce repository (ou le contenu de ce dossier) sur votre poste dans C:\TP\ChasseAuTresor  
 - Vérifier que le dossier C:\TP\ChasseAuTresor contienne bien le fichier "Formation.asmx"  
-- Lancer la ligne de commande suivante : "C:\Program Files (x86)\IIS Express\iisexpress.exe" /path:"C:\TP\ChasseAuTresor".  
+- Lancer la ligne de commande suivante : "C:\Program Files (x86)\IIS Express\iisexpress.exe" /path:"C:\Users\Gautier\source\repos\GitHub\Planas_Exercices\ChasseAuTresor".  
   Attention cependant aux noms de chemins longs ou avec des espaces...  
   
 ## Le jeu  

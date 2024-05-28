@@ -8,7 +8,7 @@ namespace PersonReader.CSV
 {
     // TODO 4-2 : La classe CSVReader doit implémenter IRepository
 
-    public class CSVReader
+    public class CSVReader : IRepository
     {
         public ICSVFileLoader FileLoader { get; set; }
 

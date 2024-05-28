@@ -17,7 +17,7 @@ namespace PersonReader.CSV.Tests
         {
             var repository = new CSVReader();
 
-            //repository.FileLoader = new FakeFileLoader("Empty"); //Property Injection
+            repository.FileLoader = new FakeFileLoader("Empty"); //Property Injection
 
             var result = repository.GetPeople();
 
@@ -28,7 +28,7 @@ namespace PersonReader.CSV.Tests
         public void GetPeople_WithGoodRecords_ReturnsGoodRecords()
         {
             var repository = new CSVReader();
-            //repository.FileLoader = new FakeFileLoader("Good"); //Property Injection
+            repository.FileLoader = new FakeFileLoader("Good"); //Property Injection
 
             var result = repository.GetPeople();
 
@@ -39,7 +39,7 @@ namespace PersonReader.CSV.Tests
         public void GetPeople_WithBadRecords_ReturnsGoodRecords()
         {
             var repository = new CSVReader();
-            //repository.FileLoader = new FakeFileLoader("Mixed");//Property Injection
+            repository.FileLoader = new FakeFileLoader("Mixed");//Property Injection
 
             var result = repository.GetPeople();
 
@@ -50,7 +50,7 @@ namespace PersonReader.CSV.Tests
         public void GetPeople_WithOnlyBadRecord_ReturnsEmptyList()
         {
             var repository = new CSVReader();
-            //repository.FileLoader = new FakeFileLoader("Bad");//Property Injection
+            repository.FileLoader = new FakeFileLoader("Bad");//Property Injection
 
             var result = repository.GetPeople();
 
