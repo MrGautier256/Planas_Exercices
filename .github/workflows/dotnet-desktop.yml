@@ -31,12 +31,15 @@ jobs:
 
       # Install .NET Framework Developer Pack 4.5
       - name: Install .NET Framework 4.5 Developer Pack
-        run: |
-          choco install netfx-4.5.2-devpack
+        run: choco install netfx-4.5.2-devpack -y
 
       # Add MSBuild to the PATH
       - name: Setup MSBuild.exe
         uses: microsoft/setup-msbuild@v2
+
+      # Install NuGet CLI
+      - name: Install NuGet CLI
+        run: choco install nuget.commandline -y
 
       # Restore, build, and execute all unit tests in the solution folders
       - name: Restore, Build, and Execute unit tests
@@ -49,10 +52,10 @@ jobs:
               dotnet build $testProject.FullName --configuration ${{ matrix.configuration }}
               dotnet test $testProject.FullName --configuration ${{ matrix.configuration }}
             } else {
-              nuget restore $testProject.FullName
+              nuget restore $testProject.FullName -SolutionDirectory $(Split-Path $testProject.FullName -Parent)
               msbuild $testProject.FullName /p:Configuration=${{ matrix.configuration }}
               # Assuming the tests are using MSTest, adjust if using NUnit or xUnit
-              $testDlls = Get-ChildItem -Path (Split-Path $testProject.FullName) -Recurse -Filter *.Tests.dll
+              $testDlls = Get-ChildItem -Path (Split-Path $testProject.FullName -Parent) -Recurse -Filter *.Tests.dll
               foreach ($testDll in $testDlls) {
                 & "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\MSTest.exe" /testcontainer:$testDll.FullName
               }
