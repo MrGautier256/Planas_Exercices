@@ -29,6 +29,11 @@ jobs:
             3.1.x
             5.0.x
 
+      # Install .NET Framework Developer Pack 4.5
+      - name: Install .NET Framework 4.5 Developer Pack
+        run: |
+          choco install netfx-4.5.2-devpack
+
       # Add MSBuild to the PATH
       - name: Setup MSBuild.exe
         uses: microsoft/setup-msbuild@v2
@@ -38,13 +43,13 @@ jobs:
         run: |
           $testProjects = Get-ChildItem -Path . -Recurse -Include *.csproj | Where-Object { $_.FullName -like "*Solution*UnitTests*.csproj" }
           foreach ($testProject in $testProjects) {
-            Write-Host "Restoring and building project: $testProject"
+            Write-Host "Restoring, building, and running tests for project: $testProject"
             if ((Select-String -Path $testProject.FullName -Pattern '<TargetFramework>.*net[0-9]+.*</TargetFramework>').Count -gt 0) {
               dotnet restore $testProject.FullName
               dotnet build $testProject.FullName --configuration ${{ matrix.configuration }}
               dotnet test $testProject.FullName --configuration ${{ matrix.configuration }}
             } else {
-              msbuild $testProject.FullName /t:Restore /p:Configuration=${{ matrix.configuration }}
+              nuget restore $testProject.FullName
               msbuild $testProject.FullName /p:Configuration=${{ matrix.configuration }}
               # Assuming the tests are using MSTest, adjust if using NUnit or xUnit
               $testDlls = Get-ChildItem -Path (Split-Path $testProject.FullName) -Recurse -Filter *.Tests.dll
